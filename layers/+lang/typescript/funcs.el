@@ -162,3 +162,7 @@
 (defun spacemacs/typescript-setup-prettier ()
   (when (eq typescript-fmt-tool 'prettier)
     (setq-local prettier-js-args '("--parser=typescript"))))
+
+(defun spacemacs/typescript-setup-tslint ()
+  (when-let ((tslint (spacemacs/node-executable-find "tslint" "react-scripts-ts")))
+    (setq-local flycheck-typescript-tslint-executable tslint)))

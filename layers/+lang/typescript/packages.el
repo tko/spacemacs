@@ -127,3 +127,6 @@
       (spacemacs/set-leader-keys-for-major-mode 'typescript-tsx-mode
         "="  'spacemacs/typescript-format
         "sp" 'spacemacs/typescript-open-region-in-playground))))
+
+(defun typescript/post-init-typescript-mode ()
+  (add-hook 'typescript-mode-hook #'spacemacs/typescript-setup-prettier))

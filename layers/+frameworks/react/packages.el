@@ -11,7 +11,6 @@
 
 (defconst react-packages
   '(
-    add-node-modules-path
     company
     emmet-mode
     evil-matchit
@@ -24,9 +23,6 @@
     web-beautify
     yasnippet
     ))
-
-(defun react/post-init-add-node-modules-path ()
-  (add-hook 'rjsx-mode-hook #'add-node-modules-path))
 
 (defun react/post-init-company ()
   (add-hook 'rjsx-mode-local-vars-hook #'spacemacs//react-setup-company))
@@ -42,6 +38,7 @@
                  (evilmi-html-get-tag evilmi-html-jump)))))
 
 (defun react/post-init-flycheck ()
+  (spacemacs/add-to-hooks #'spacemacs//react-setup-eslint '(rjsx-mode-hook))
   (with-eval-after-load 'flycheck
     (dolist (checker '(javascript-eslint javascript-standard))
       (flycheck-add-mode checker 'rjsx-mode)))

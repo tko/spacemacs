@@ -11,7 +11,6 @@
 
 (setq typescript-packages
       '(
-        add-node-modules-path
         company
         eldoc
         emmet-mode
@@ -23,10 +22,6 @@
         tide
         yasnippet
         ))
-
-(defun typescript/post-init-add-node-modules-path ()
-  (spacemacs/add-to-hooks #'add-node-modules-path '(typescript-mode-hook
-                                                    typescript-tsx-mode-hook)))
 
 (defun typescript/post-init-company ()
   (spacemacs/add-to-hooks #'spacemacs//typescript-setup-company

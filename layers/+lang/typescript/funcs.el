@@ -137,8 +137,13 @@
                  (cons 'typescript-backend value))))
 
 (defun spacemacs//typescript-setup-checkers ()
-  (when-let* ((found (executable-find "eslint_d")))
-    (set (make-local-variable 'flycheck-javascript-eslint-executable) found)))
+  (when-let* ((tslint (spacemacs/node-executable-find "tslint")))
+    (setq-local flycheck-typescript-tslint-executable tslint))
+
+  (when-let* ((eslint (or
+                       (spacemacs/node-executable-find "eslint_d")
+                       (spacemacs/node-executable-find "eslint"))))
+    (setq-local flycheck-javascript-eslint-executable eslint)))
 
 (defun spacemacs/typescript-setup-prettier ()
   (when (eq typescript-fmt-tool 'prettier)

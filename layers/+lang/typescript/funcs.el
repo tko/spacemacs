@@ -152,3 +152,7 @@
 (defun spacemacs/typescript-jump-to-type-def ()
   (interactive)
   (tide-jump-to-definition))
+
+(defun spacemacs/typescript-setup-prettier ()
+  (when (eq typescript-fmt-tool 'prettier)
+    (setq-local prettier-js-args '("--parser=typescript"))))

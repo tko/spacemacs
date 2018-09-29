@@ -154,3 +154,7 @@
 (defun spacemacs//typescript-setup-checkers ()
   (when-let* ((found (executable-find "eslint_d")))
     (set (make-local-variable 'flycheck-javascript-eslint-executable) found)))
+
+(defun spacemacs/typescript-setup-prettier ()
+  (when (eq typescript-fmt-tool 'prettier)
+    (setq-local prettier-js-args '("--parser=typescript"))))

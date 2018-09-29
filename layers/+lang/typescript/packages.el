@@ -127,3 +127,6 @@
   (when (eq (spacemacs//typescript-backend) `tide)
     (add-to-list 'tide-managed-modes 'typescript-mode)
     (add-to-list 'tide-managed-modes 'typescript-tsx-mode)))
+
+(defun typescript/post-init-typescript-mode ()
+  (add-hook 'typescript-mode-hook #'spacemacs/typescript-setup-prettier))

@@ -169,3 +169,6 @@
       (progn
         (add-to-list 'spacemacs--import-js-modes (cons 'typescript-mode 'typescript-mode-hook))
         (add-to-list 'spacemacs--import-js-modes (cons 'typescript-tsx-mode 'typescript-tsx-mode-hook)))))
+
+(defun typescript/post-init-typescript-mode ()
+  (add-hook 'typescript-mode-hook #'spacemacs/typescript-setup-prettier))

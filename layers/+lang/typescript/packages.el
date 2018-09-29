@@ -11,7 +11,6 @@
 
 (setq typescript-packages
       '(
-        add-node-modules-path
         company
         eldoc
         emmet-mode
@@ -23,10 +22,6 @@
         web-mode
         yasnippet
         ))
-
-(defun typescript/post-init-add-node-modules-path ()
-  (spacemacs/add-to-hooks #'add-node-modules-path '(typescript-mode-hook
-                                             typescript-tsx-mode-hook)))
 
 (defun typescript/post-init-company ()
   (spacemacs/add-to-hooks #'spacemacs//typescript-setup-company
@@ -46,10 +41,12 @@
     (with-eval-after-load 'flycheck
         (cond ((eq typescript-linter `tslint)
               (progn
+                (spacemacs/typescript-setup-tslint)
                 (flycheck-add-mode 'typescript-tide 'typescript-tsx-mode)
                 (flycheck-add-mode 'typescript-tslint 'typescript-tsx-mode)))
               ((eq typescript-linter `eslint)
               (progn
+                (spacemacs/typescript-setup-eslint)
                 (flycheck-add-mode 'javascript-eslint 'typescript-tsx-mode)
                 (flycheck-add-mode 'javascript-eslint 'typescript-mode)
                 (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
@@ -69,11 +66,10 @@
         ((eq typescript-backend `lsp)
          (with-eval-after-load 'lsp-ui
          (with-eval-after-load 'flycheck
-           (progn
-         (flycheck-add-mode 'javascript-eslint 'typescript-tsx-mode)
-         (flycheck-add-mode 'javascript-eslint 'typescript-mode)
-         (flycheck-add-next-checker 'lsp-ui 'javascript-eslint 'append)
-         ))))))
+           (spacemacs/typescript-setup-eslint)
+           (flycheck-add-mode 'javascript-eslint 'typescript-tsx-mode)
+           (flycheck-add-mode 'javascript-eslint 'typescript-mode)
+           (flycheck-add-next-checker 'lsp-ui 'javascript-eslint 'append))))))
 
 (defun typescript/post-init-smartparens ()
   (if dotspacemacs-smartparens-strict-mode

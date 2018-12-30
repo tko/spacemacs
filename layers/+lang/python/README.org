@@ -47,7 +47,7 @@ This layer adds support for the Python language.
 - Test Runners using [[https://github.com/syl20bnr/nose.el][nose.el]] or [[https://github.com/ionrock/pytest-el][pytest]]
 - Virtual Environment using [[https://github.com/jorgenschaefer/pyvenv][pyvenv]] and [[https://github.com/yyuu/pyenv][pyenv]]
 - semantic mode is enabled
-- PEP8 compliant formatting via [[https://github.com/google/yapf][YAPF]]
+- PEP8 compliant formatting via [[https://github.com/google/yapf][YAPF]] or [[https://github.com/ambv/black][black]]
 - PEP8 checks with [[https://pypi.python.org/pypi/flake8][flake8]] or [[https://pypi.python.org/pypi/pylint/1.6.4][pylint]]
 - Suppression of unused import with [[https://github.com/myint/autoflake][autoflake]]
 - Use the ~%~ key to jump between blocks with [[https://github.com/redguardtoo/evil-matchit][evil-matchit]]
@@ -169,6 +169,13 @@ To enable automatic buffer formatting on save with [[https://github.com/google/y
 #+BEGIN_SRC emacs-lisp
   (setq-default dotspacemacs-configuration-layers '(
     (python :variables python-enable-yapf-format-on-save t)))
+#+END_SRC
+
+Alternatively, [[https://github.com/ambv/black][black]] may be used:
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default dotspacemacs-configuration-layers '(
+    (python :variables python-enable-black-format-on-save t)))
 #+END_SRC
 
 ** Automatic save of buffer when testing

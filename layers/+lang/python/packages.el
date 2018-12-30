@@ -11,6 +11,7 @@
 
 (setq python-packages
       '(
+        blacken
         company
         counsel-gtags
         cython-mode
@@ -95,6 +96,17 @@
     :defer t
     ;; see `spacemacs//python-setup-anaconda-company'
     ))
+
+(defun python/init-blacken ()
+  (use-package blacken
+    :defer t
+    :init
+    (progn
+      (spacemacs/set-leader-keys-for-major-mode 'python-mode
+        "-" 'blacken-buffer)
+      (when python-enable-black-format-on-save
+        (add-hook 'python-mode-hook 'blacken-mode)))
+    :config (spacemacs|hide-lighter blacken-mode)))
 
 (defun python/init-cython-mode ()
   (use-package cython-mode

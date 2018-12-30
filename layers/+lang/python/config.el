@@ -24,6 +24,9 @@ and `lsp'.")
 (defvar python-enable-yapf-format-on-save nil
   "If non-nil, automatically format code with YAPF on save.")
 
+(defvar python-enable-black-format-on-save nil
+  "If non-nil, automatically format code with `black` on save.")
+
 (defvar python-test-runner 'nose
   "Test runner to use. Possible values are `nose' or `pytest'.")
 

@@ -102,9 +102,9 @@
     :defer t
     :init
     (progn
-      (spacemacs/set-leader-keys-for-major-mode 'python-mode
-        "-" 'blacken-buffer)
-      (when python-enable-black-format-on-save
+      (spacemacs//bind-python-formatter-keys)
+      (when (and python-format-on-save
+                 (eq 'black python-formatter))
         (add-hook 'python-mode-hook 'blacken-mode)))
     :config (spacemacs|hide-lighter blacken-mode)))
 
@@ -414,8 +414,8 @@ fix this issue."
     :defer t
     :init
     (progn
-      (spacemacs/set-leader-keys-for-major-mode 'python-mode
-        "=" 'yapfify-buffer)
-      (when python-enable-yapf-format-on-save
+      (spacemacs//bind-python-formatter-keys)
+      (when (and python-format-on-save
+                 (eq 'yapf python-formatter))
         (add-hook 'python-mode-hook 'yapf-mode)))
     :config (spacemacs|hide-lighter yapf-mode)))

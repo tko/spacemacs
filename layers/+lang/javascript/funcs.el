@@ -66,6 +66,13 @@
                      "the `tern' layer is not present in your `.spacemacs'!"))))
 
 
+;; flycheck
+
+(defun spacemacs//javascript-setup-eslint ()
+  (when-let ((found (spacemacs/node-executable-find "eslint")))
+    (set (make-local-variable 'flycheck-javascript-eslint-executable) found)))
+
+
 ;; js-doc
 
 (defun spacemacs/js-doc-require ()

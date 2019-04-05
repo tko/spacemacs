@@ -11,7 +11,6 @@
 
 (setq javascript-packages
       '(
-        add-node-modules-path
         company
         counsel-gtags
         evil-matchit
@@ -31,20 +30,17 @@
         web-beautify
         ))
 
-(defun javascript/post-init-add-node-modules-path ()
-  (spacemacs/add-to-hooks #'add-node-modules-path '(css-mode-hook
-                                             js2-mode-hook)))
-
 (defun javascript/post-init-counsel-gtags ()
   (spacemacs/counsel-gtags-define-keys-for-mode 'js2-mode))
 
 (defun javascript/post-init-evil-matchit ()
-  (add-hook `js2-mode `turn-on-evil-matchit-mode))
+  (add-hook `js2-mode-hook `turn-on-evil-matchit-mode))
 
 (defun javascript/post-init-company ()
   (add-hook 'js2-mode-local-vars-hook #'spacemacs//javascript-setup-company))
 
 (defun javascript/post-init-flycheck ()
+  (add-hook 'js2-mode-hook #'spacemacs//javascript-setup-eslint)
   (spacemacs/enable-flycheck 'js2-mode))
 
 (defun javascript/post-init-ggtags ()

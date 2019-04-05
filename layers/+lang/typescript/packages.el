@@ -11,7 +11,6 @@
 
 (setq typescript-packages
       '(
-        add-node-modules-path
         company
         eldoc
         flycheck
@@ -21,10 +20,6 @@
         web-mode
         yasnippet
         ))
-
-(defun typescript/post-init-add-node-modules-path ()
-  (spacemacs/add-to-hooks #'add-node-modules-path '(typescript-mode-hook
-                                             typescript-tsx-mode-hook)))
 
 (defun typescript/post-init-company ()
   (spacemacs/add-to-hooks #'spacemacs//typescript-setup-company
@@ -39,6 +34,8 @@
 (defun typescript/post-init-flycheck ()
   (spacemacs/enable-flycheck 'typescript-mode)
   (spacemacs/enable-flycheck 'typescript-tsx-mode)
+  (spacemacs/add-to-hooks #'spacemacs/typescript-setup-tslint
+                          '(typescript-mode-hook typescript-tsx-mode-hook))
   (with-eval-after-load 'tide
     (with-eval-after-load 'flycheck
       (flycheck-add-mode 'typescript-tide 'typescript-tsx-mode)
@@ -127,3 +124,6 @@
       (spacemacs/set-leader-keys-for-major-mode 'typescript-tsx-mode
         "="  'spacemacs/typescript-format
         "sp" 'spacemacs/typescript-open-region-in-playground))))
+
+(defun typescript/post-init-typescript-mode ()
+  (add-hook 'typescript-mode-hook #'spacemacs/typescript-setup-prettier))

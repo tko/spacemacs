@@ -27,6 +27,7 @@
         magit
         magit-gitflow
         magit-svn
+        magit-todos
         (orgit :requires org)
         smeargle
         transient
@@ -210,7 +211,12 @@ Press [_b_] again to blame further in the history, [_q_] to go up or quit."
               (concat mm-key mm-key) 'with-editor-finish
               (concat mm-key "a")    'with-editor-cancel
               (concat mm-key "c")    'with-editor-finish
-              (concat mm-key "k")    'with-editor-cancel))))
+              (concat mm-key "k")    'with-editor-cancel)
+            (evil-define-key state magit-log-select-mode-map
+              (concat mm-key mm-key) 'magit-log-select-pick
+              (concat mm-key "a")    'magit-log-select-quit
+              (concat mm-key "c")    'magit-log-select-pick
+              (concat mm-key "k")    'magit-log-select-quit))))
       ;; whitespace
       (define-key magit-status-mode-map (kbd "C-S-w")
         'spacemacs/magit-toggle-whitespace)
@@ -236,6 +242,16 @@ Press [_b_] again to blame further in the history, [_q_] to go up or quit."
     :config (progn
               (spacemacs|diminish magit-svn-mode "SVN")
               (define-key magit-mode-map "~" 'magit-svn))))
+
+(defun git/init-magit-todos ()
+  (use-package magit-todos
+    :defer t
+    :init (add-hook 'magit-mode-hook 'magit-todos-mode)
+    :config
+    (progn
+      (define-key magit-status-mode-map
+        "gT" 'magit-todos-jump-to-todos)
+      (define-key magit-todos-section-map "j" nil))))
 
 (defun git/init-orgit ()
   (use-package orgit

@@ -74,3 +74,7 @@ If optional argument P is present, test this instead of point."
 
 (defun spacemacs//react-setup-yasnippet ()
   (yas-activate-extra-mode 'js-mode))
+
+(defun spacemacs//react-setup-eslint ()
+  (when-let ((eslint (spacemacs/node-executable-find "eslint")))
+    (setq-local flycheck-javascript-eslint-executable eslint)))

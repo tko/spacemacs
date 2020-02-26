@@ -28,18 +28,18 @@
                                        ("c"   "compile/comments")
                                        ("C"   "capture/colors")
                                        ("d"   "documentation")
+                                       ("D"   "ediff")
+                                       ("Db"  "buffers")
+                                       ("Dd"  "directories")
+                                       ("Df"  "files")
+                                       ("Dm"  "merge")
+                                       ("Dmb" "buffers")
+                                       ("Dmd" "directories")
+                                       ("Dmf" "files")
+                                       ("Dmr" "revisions")
+                                       ("Dr"  "regions")
+                                       ("Dw"  "windows")
                                        ("e"   "errors")
-                                       ("E"   "ediff")
-                                       ("Eb"  "buffers")
-                                       ("Ed"  "directories")
-                                       ("Ef"  "files")
-                                       ("Em"  "merge")
-                                       ("Emb" "buffers")
-                                       ("Emd" "directories")
-                                       ("Emf" "files")
-                                       ("Emr" "revisions")
-                                       ("Er"  "regions")
-                                       ("Ew"  "windows")
                                        ("f"   "files")
                                        ("fC"  "files/convert")
                                        ("fe"  "emacs(spacemacs)")
@@ -60,11 +60,11 @@
                                        ("k"   "lisp")
                                        ("kd"  "delete")
                                        ("kD"  "delete-backward")
-                                       ("K"   "kmacros")
-                                       ("K2"  "ring")
-                                       ("Ke"  "edit")
-                                       ("Ks"  "set/swap")
                                        ("k`"  "hybrid")
+                                       ("K"   "macros")
+                                       ("Kc"  "counter")
+                                       ("Ke"  "edit")
+                                       ("Kr"  "ring")
                                        ("m"   "major mode commands")
                                        ("n"   "narrow/numbers")
                                        ("N"   "navigation")
@@ -154,32 +154,26 @@
 (spacemacs/set-leader-keys "!" 'shell-command)
 ;; kmacros --------------------------------------------------------------------
 (spacemacs/set-leader-keys
-  "K("  'kmacro-start-macro-or-insert-counter
-  "K)"  'kmacro-end-or-call-macro-repeat
-  "K2c" 'kmacro-call-ring-2nd
-  "K2C" 'kmacro-call-ring-2nd-repeat
-  "K2v" 'kmacro-view-ring-2nd
-  "Ka"  'kmacro-add-counter
-  "Kb"  'kmacro-bind-to-key
-  "Kc"  'kmacro-call-macro
-  "Kd"  'kmacro-delete-ring-head
+  "Kca" 'kmacro-add-counter
+  "Kcc" 'kmacro-insert-counter
+  "KcC" 'kmacro-set-counter
+  "Kcf" 'kmacro-set-format
+  "Keb" 'kmacro-bind-to-key
+  "Kee" 'kmacro-edit-macro-repeat
   "Kel" 'kmacro-edit-lossage
-  "Kem" 'kmacro-edit-macro
-  "Ker" 'kmacro-edit-macro-repeat
-  "Ket" 'kmacro-step-edit-macro
-  "Ki"  'kmacro-insert-counter
-  "Km"  'kmacro-end-call-mouse
-  "Kn"  'kmacro-cycle-ring-next
-  "KN"  'kmacro-name-last-macro
-  "Kp"  'kmacro-cycle-ring-previous
-  "Kr"  'helm-register
-  "Ksc" 'kmacro-set-counter
-  "Ksf" 'kmacro-set-format
-  "Ksr" 'kmacro-swap-ring
-  "Kv"  'kmacro-view-macro
-  "KV"  'kmacro-view-macro-repeat
-  "Kw"  'kmacro-to-register
-  "Ky"  'jump-to-register)
+  "Ken" 'kmacro-name-last-macro
+  "Ker" 'kmacro-to-register
+  "Kes" 'kmacro-step-edit-macro
+  "Kk"  'kmacro-start-macro-or-insert-counter
+  "KK"  'kmacro-end-or-call-macro
+  "KrL" 'kmacro-view-ring-2nd
+  "Krd" 'kmacro-delete-ring-head
+  "Krl" 'kmacro-call-ring-2nd-repeat
+  "Krn" 'kmacro-cycle-ring-next
+  "Krp" 'kmacro-cycle-ring-previous
+  "Krs" 'kmacro-swap-ring
+  "Kv"  'kmacro-view-macro-repeat
+  )
 ;; rectangles ------------------------------------------------------------------
 (spacemacs/set-leader-keys
   "R!" 'clear-rectangle
@@ -289,32 +283,32 @@
   :evil-leader "e.")
 ;; ediff ----------------------------------------------------------------------
 (spacemacs/set-leader-keys
-  "Eb3"  'ediff-buffers3
-  "Ebb"  'ediff-buffers
-  "Ebp"  'ediff-patch-buffer
-  "EB"   'ediff-backup
-  "Ed3"  'ediff-directories3
-  "Edd"  'ediff-directories
-  "Edr"  'ediff-directory-revisions
-  "Ef."  'spacemacs/ediff-dotfile-and-template
-  "Ef3"  'ediff-files3
-  "Eff"  'ediff-files
-  "Efp"  'ediff-patch-file
-  "Eh"   'ediff-documentation
-  "Emb3" 'ediff-merge-buffers-with-ancestor
-  "Embb" 'ediff-merge-buffers
-  "Emd3" 'ediff-merge-directories-with-ancestor
-  "Emdd" 'ediff-merge-directories
-  "Emf3" 'ediff-merge-files-with-ancestor
-  "Emff" 'ediff-merge-files
-  "Emr3" 'ediff-merge-revisions-with-ancestor
-  "Emrr" 'ediff-merge-revisions
-  "Erl"  'ediff-regions-linewise
-  "Erw"  'ediff-regions-wordwise
-  "Es"   'ediff-show-registry
-  "Ev"   'ediff-revision
-  "Ewl"  'ediff-windows-linewise
-  "Eww"  'ediff-windows-wordwise)
+  "Db3"  'ediff-buffers3
+  "Dbb"  'ediff-buffers
+  "Dbp"  'ediff-patch-buffer
+  "DB"   'ediff-backup
+  "Dd3"  'ediff-directories3
+  "Ddd"  'ediff-directories
+  "Ddr"  'ediff-directory-revisions
+  "Df."  'spacemacs/ediff-dotfile-and-template
+  "Df3"  'ediff-files3
+  "Dff"  'ediff-files
+  "Dfp"  'ediff-patch-file
+  "Dh"   'ediff-documentation
+  "Dmb3" 'ediff-merge-buffers-with-ancestor
+  "Dmbb" 'ediff-merge-buffers
+  "Dmd3" 'ediff-merge-directories-with-ancestor
+  "Dmdd" 'ediff-merge-directories
+  "Dmf3" 'ediff-merge-files-with-ancestor
+  "Dmff" 'ediff-merge-files
+  "Dmr3" 'ediff-merge-revisions-with-ancestor
+  "Dmrr" 'ediff-merge-revisions
+  "Drl"  'ediff-regions-linewise
+  "Drw"  'ediff-regions-wordwise
+  "Ds"   'ediff-show-registry
+  "Dv"   'ediff-revision
+  "Dwl"  'ediff-windows-linewise
+  "Dww"  'ediff-windows-wordwise)
 ;; file -----------------------------------------------------------------------
 (spacemacs/set-leader-keys
   "fA" 'spacemacs/find-file-and-replace-buffer
@@ -648,6 +642,7 @@ respond to this toggle."
   "xa|" 'spacemacs/align-repeat-bar
   "xc"  'count-region
   "xd SPC" 'cycle-spacing
+  "xdl" 'delete-blank-lines
   "xdw" 'delete-trailing-whitespace
   "xjc" 'set-justification-center
   "xjf" 'set-justification-full

@@ -11,7 +11,6 @@
 
 (defconst javascript-packages
   '(
-    add-node-modules-path
     company
     counsel-gtags
     dap-mode
@@ -33,10 +32,6 @@
     tern
     tide
     web-beautify))
-
-(defun javascript/post-init-add-node-modules-path ()
-  (spacemacs/add-to-hooks #'add-node-modules-path '(css-mode-hook
-                                                    js2-mode-hook)))
 
 (defun javascript/post-init-company ()
   (add-hook 'js2-mode-local-vars-hook #'spacemacs//javascript-setup-company))

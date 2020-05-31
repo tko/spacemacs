@@ -11,7 +11,6 @@
 
 (defconst react-packages
   '(
-    add-node-modules-path
     company
     emmet-mode
     evil-matchit
@@ -26,9 +25,6 @@
     web-beautify
     yasnippet
     ))
-
-(defun react/post-init-add-node-modules-path ()
-  (add-hook 'rjsx-mode-hook #'add-node-modules-path))
 
 (defun react/post-init-company ()
   (add-hook 'rjsx-mode-local-vars-hook #'spacemacs//react-setup-company))

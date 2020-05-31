@@ -16,5 +16,8 @@
     :commands prettier-js
     :init
     (dolist (mode spacemacs--prettier-modes)
+      (let ((mode-hook (intern (format "%S-hook" mode))))
+        (add-hook mode-hook #'spacemacs/prettier-setup-command))
+
       (spacemacs/set-leader-keys-for-major-mode mode
         "==" #'prettier-js))))

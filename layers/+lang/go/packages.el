@@ -90,7 +90,7 @@
         "tgF" 'go-gen-test-all))))
 
 (defun go/init-go-guru ()
-  (use-package go-impl
+  (use-package go-guru
     :defer t
     :init
     (progn

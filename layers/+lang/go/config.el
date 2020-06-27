@@ -33,14 +33,5 @@ If `nil' then `go-mode' is the default backend unless `lsp' layer is used.")
 (defvar go-use-golangci-lint nil
   "Use `golangci-lint' if the variable has non-nil value.")
 
-(defvar go-test-buffer-name "*go test*"
-  "Name of the buffer for go test output. Default is *go test*.")
-
-(defvar go-use-test-args ""
-  "Additional arguments to be supplied to `go test` during runtime.")
-
-(defvar go-test-verbose nil
-  "Control verbosity of `go test` output")
-
 (defvar go-run-args ""
   "Additional arguments to by supplied to `go run` during runtime.")

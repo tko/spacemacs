@@ -31,7 +31,7 @@
     go-rename
     go-tag
     godoctor
-    popwin))
+    gotest))
 
 (defun go/init-company-go ()
   (use-package company-go
@@ -157,10 +157,7 @@
         "ia" 'go-import-add
         "ig" 'go-goto-imports
         "ir" 'go-remove-unused-imports
-        "tP" 'spacemacs/go-run-package-tests-nested
-        "tp" 'spacemacs/go-run-package-tests
         "ts" 'spacemacs/go-run-test-current-suite
-        "tt" 'spacemacs/go-run-test-current-function
         "xx" 'spacemacs/go-run-main))))
 
 (defun go/init-go-rename ()
@@ -185,6 +182,11 @@
             "rn" 'godoctor-rename
             "rt" 'godoctor-toggle)))
 
-(defun go/post-init-popwin ()
-  (push (cons go-test-buffer-name '(:dedicated t :position bottom :stick t :noselect t :height 0.4))
-        popwin:special-display-config))
+(defun go/init-gotest ()
+  (use-package gotest
+    :defer t
+    :init (spacemacs/set-leader-keys-for-major-mode 'go-mode
+            "tf" 'go-test-current-file
+            "tp" 'spacemacs/go-run-tests
+            "tP" 'go-test-current-project
+            "tt" 'go-test-current-test)))

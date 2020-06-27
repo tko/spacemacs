@@ -108,29 +108,9 @@
 
 ;; run
 
-(defun spacemacs/go-run-tests (args)
+(defun spacemacs/go-run-tests (&optional args)
   (interactive)
-  (compilation-start (concat "go test " (when go-test-verbose "-v ") args " " go-use-test-args)
-                     nil (lambda (n) go-test-buffer-name) nil))
-
-(defun spacemacs/go-run-package-tests ()
-  (interactive)
-  (spacemacs/go-run-tests ""))
-
-(defun spacemacs/go-run-package-tests-nested ()
-  (interactive)
-  (spacemacs/go-run-tests "./..."))
-
-(defun spacemacs/go-run-test-current-function ()
-  (interactive)
-  (if (string-match "_test\\.go" buffer-file-name)
-      (save-excursion
-        (re-search-backward "^func[ ]+\\(([[:alnum:]]*?[ ]?[*]?\\([[:alnum:]]+\\))[ ]+\\)?\\(Test[[:alnum:]_]+\\)(.*)")
-        (spacemacs/go-run-tests
-         (cond (go-use-testify-for-testing (concat "-run='Test" (match-string-no-properties 2) "' -testify.m='" (match-string-no-properties 3) "'"))
-               (go-use-gocheck-for-testing (concat "-check.f='" (match-string-no-properties 3) "$'"))
-               (t (concat "-run='" (match-string-no-properties 3) "$'")))))
-    (message "Must be in a _test.go file to run go-run-test-current-function")))
+  (go-test--go-test args))
 
 (defun spacemacs/go-run-test-current-suite ()
   (interactive)

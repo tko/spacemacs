@@ -121,29 +121,83 @@
   (interactive)
   (spacemacs/go-run-tests "./..."))
 
+(defun spacemacs//go--function-regex (&optional test)
+  ;; func TestIt
+  ;; func (x X) TestIt
+  ;; func (x *X) TestIt
+  (rx-to-string
+   '(: bol "func" (1+ " ")
+       (? (seq
+           "("
+           (*? alnum) (? " ") (? "*")
+           (group (1+ alnum)) ; group 1: receiver type / suite
+           ")"
+           (1+ " ")))
+       (group ; group 2: function name
+        (eval (if test "Test" 'upper))
+        (1+ (any "_" alnum))
+        ))))
+
+(defun spacemacs//go--current-function-name (&optional test)
+  (save-excursion
+    (re-search-backward (spacemacs//go--function-regex test)))
+  (list
+   (match-string-no-properties 1) ; suite
+   (if test
+       (match-string-no-properties 2) ; filename starting with Test
+     (concat "Test" (match-string-no-properties 2)) ; filename
+   )))
+
+(defun spacemacs//go--get-test-file-buffer ()
+  (if (string-match "_test\\.go" buffer-file-name)
+      (current-buffer)
+    (let ((ff-always-try-to-create nil)
+          (ff-quiet-mode t)
+          (inhibit-message t))
+      (when-let ((filename (ff-other-file-name)))
+        (find-file-noselect filename t)))))
+
+(defun spacemacs//go--list-functions ()
+  (when-let ((buffer (spacemacs//go--get-test-file-buffer)))
+    (with-current-buffer buffer
+        (save-excursion
+
+          (goto-char (point-min))
+
+          (let ((regex (spacemacs//go--function-regex t))
+                fns)
+            (while (re-search-forward regex nil t)
+              (let ((name (match-string-no-properties 2)))
+                (push name fns)))
+            fns)))))
+
 (defun spacemacs/go-run-test-current-function ()
   (interactive)
-  (if (string-match "_test\\.go" buffer-file-name)
-      (save-excursion
-        (re-search-backward "^func[ ]+\\(([[:alnum:]]*?[ ]?[*]?\\([[:alnum:]]+\\))[ ]+\\)?\\(Test[[:alnum:]_]+\\)(.*)")
-        (spacemacs/go-run-tests
-         (cond (go-use-testify-for-testing (concat "-run='Test" (match-string-no-properties 2) "' -testify.m='" (match-string-no-properties 3) "'"))
-               (go-use-gocheck-for-testing (concat "-check.f='" (match-string-no-properties 3) "$'"))
-               (t (concat "-run='" (match-string-no-properties 3) "$'")))))
-    (message "Must be in a _test.go file to run go-run-test-current-function")))
+  (let ((is-test (string-match "_test\\.go" buffer-file-name)))
+    (pcase-let ((`(,suite ,filename) (spacemacs//go--current-function-name is-test)))
+      (spacemacs/go-run-tests
+       (cond (go-use-testify-for-testing (format "-run='Test%s' -testify.m='%s'" suite filename))
+             (go-use-gocheck-for-testing (format "-check.f='%s'" filename))
+             (t (format "-run='^%s$'" filename)))))))
 
 (defun spacemacs/go-run-test-current-suite ()
   (interactive)
-  (if (string-match "_test\.go" buffer-file-name)
-      (if (or go-use-testify-for-testing go-use-gocheck-for-testing)
-          (let ((test-method (if go-use-gocheck-for-testing
-                                 "-check.f='"
-                               "-run='Test")))
-            (save-excursion
-              (re-search-backward "^func[ ]+\\(([[:alnum:]]*?[ ]?[*]?\\([[:alnum:]]+\\))[ ]+\\)?\\(Test[[:alnum:]_]+\\)(.*)")
-              (spacemacs/go-run-tests (concat test-method (match-string-no-properties 2) "'"))))
-        (message "Testify or Gocheck is needed to test the current suite"))
-    (message "Must be in a _test.go file to run go-test-current-suite")))
+  (if (or go-use-gocheck-for-testing go-use-testify-for-testing)
+      (let ((is-test (string-match "_test\\.go" buffer-file-name)))
+        (pcase-let ((`(,suite ,filename) (spacemacs//go--current-function-name is-test)))
+          (spacemacs/go-run-tests
+           (cond (go-use-testify-for-testing (format "-run='Test%s'" suite))
+                 (go-use-gocheck-for-testing (format "-check.f='%s'" suite))))))
+    (message "Testify or Gocheck is needed to test the current suite")))
+
+(defun spacemacs/go-run-test-current-file ()
+  (interactive)
+  (when-let ((fns (spacemacs//go--list-functions))
+             (regex (format "^%s$" (string-join fns "|"))))
+    (spacemacs/go-run-tests
+     (cond (go-use-testify-for-testing (format "-run='%s' -testify.m='%s'" regex regex))
+           (go-use-gocheck-for-testing (format "-check.f='%s'" regex))
+           (t (format "-run='%s'" regex))))))
 
 (defun spacemacs/go-run-main ()
   (interactive)

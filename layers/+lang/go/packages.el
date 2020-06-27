@@ -157,7 +157,6 @@
         "ia" 'go-import-add
         "ig" 'go-goto-imports
         "ir" 'go-remove-unused-imports
-        "tf" 'spacemacs/go-run-test-current-file
         "tP" 'spacemacs/go-run-package-tests-nested
         "tp" 'spacemacs/go-run-package-tests
         "ts" 'spacemacs/go-run-test-current-suite
